@@ -1,3 +1,0 @@
-WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
-INFO:discord.client:logging in using static token
-INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: b4cec680ff164a29f48b77fbad6544fa).
