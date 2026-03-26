@@ -2,9 +2,6 @@ import discord
 from discord.ext import commands
 import logging
 from dotenv import load_dotenv
-import os
-import io
-import aiohttp
 
 class Basic(commands.Cog):
     def __init__(self, bot):
@@ -19,11 +16,6 @@ class Basic(commands.Cog):
         """the best command in existence"""
         await ctx.send(ctx.author.mention)
 
-    # adding an event listener to the cog
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if message.guild and message.guild.me.guild_permissions.ban_members:
-            await message.author.ban(reason="no speek") # very good reason
     # doing something when the cog gets loaded
     async def cog_load(self):
         print(f"{self.__class__.__name__} loaded!")
