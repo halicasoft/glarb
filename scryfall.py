@@ -21,27 +21,26 @@ class Scryfall(commands.Cog):
 
     @commands.command(name="random")
     async def random(self, ctx):
-        response = requests.get(url + "random")
-        data = response.json()
+        response = await self.bot.http_get_json(url + "random")
 
-        image_url = data["image_uris"]["normal"]
-        image_response = requests.get(image_url)
-        image_file = discord.File(io.BytesIO(image_response.content), filename="card.png")
+        image_url = response["image_uris"]["normal"]
+        image_response = await self.bot.http_get_img(image_url)
+        image_file = discord.File(io.BytesIO(image_response), filename="card.png")
 
         await ctx.send("From my orb, I fetch the following portent:")
-        await ctx.send("**" + data["name"] + "**", file=image_file)
+        await ctx.send("**" + response["name"] + "**", file=image_file)
+
     
     @commands.command(name="commander")
     async def commander(self, ctx):
-        response = requests.get(url + "random?q=is%3Acommander")
-        data = response.json()
+        response = await self.bot.http_get_json(url + "random?q=is%3Acommander")
 
-        image_url = data["image_uris"]["normal"]
-        image_response = requests.get(image_url)
-        image_file = discord.File(io.BytesIO(image_response.content), filename="card.png")
+        image_url = response["image_uris"]["normal"]
+        image_response = await self.bot.http_get_img(image_url)
+        image_file = discord.File(io.BytesIO(image_response), filename="card.png")
 
         await ctx.send("From my orb, I fetch the following commander:")
-        await ctx.send("**" + data["name"] + "**", file=image_file)
+        await ctx.send("**" + response["name"] + "**", file=image_file)
 
 
 
