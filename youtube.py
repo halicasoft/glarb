@@ -12,7 +12,8 @@ ytdlp_options = {
         'youtube': {
             'skip': ['dash', 'hls']  # fall back to simpler formats
         }
-    }
+    },
+    'ignoreerrors': True,
 }
 
 voice_clients = {}
@@ -31,17 +32,20 @@ playlists = {
 class YTDLP(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
-    @commands.command(name="play")
-    async def play(self, ctx):
+
+    @commands.command()
+    async def play(self, ctx, playlist_name: str):
+
         if not ctx.author.voice:
-            await ctx.send("You need to be in a voice channel to play music!")
+             await ctx.send("You need to be in a voice channel to play music.")
+             return
+        if playlist_name not in playlists:
+            await ctx.send("Invalid playlist name. Glarb is currently configured for two playlists: 'battle' and 'exploring'. Attach one of them at the end of !play.")
             return
-        
-        url = "https://www.youtube.com/watch?v=aBE9EQ7gXKI"
 
-        await ctx.send(f"Fetching audio...")
+        url = playlists[playlist_name]
 
+        #play next
         try:
             loop = asyncio.get_event_loop()
             data = await loop.run_in_executor(
@@ -56,6 +60,7 @@ class YTDLP(commands.Cog):
         except Exception as e:
             await ctx.send(f"An error occurred while trying to fetch the audio: {str(e)}")
 
+        #join audio and play the music
         try:
             loop = asyncio.get_event_loop()
             voice_client = await ctx.author.voice.channel.connect()
@@ -70,7 +75,7 @@ class YTDLP(commands.Cog):
                 )
         except Exception as e:
             await ctx.send(f"An error occurred while trying to play the audio: {str(e)}")
-    
+ 
     @commands.command(name="stop")
     async def stop(self, ctx):
         if ctx.guild.id in voice_clients:
