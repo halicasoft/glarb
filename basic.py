@@ -57,6 +57,16 @@ class Basic(commands.Cog):
         else:
             await ctx.send(f"Your current balance is **{format_currency(balance)}**.")
 
+    @commands.command(name="leaderboard")
+    async def leaderboard(self, ctx):
+        economy = load_economy()
+        sorted_users = sorted(economy.items(), key=lambda x: x[1], reverse=True)
+        leaderboard = "\n".join(
+            f"<@{user_id}>: {format_currency(balance)}"
+            for user_id, balance in sorted_users[:5]
+        )
+        await ctx.send(f"**Leaderboard:**\n{leaderboard}")
+
     @commands.command(name="commands")
     async def helpcmd(self, ctx):
         await ctx.send(
