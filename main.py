@@ -51,6 +51,7 @@ async def main():
      bot = Glarb()
      async with bot:
           await bot.start(token)
+          await bot.change_presence(activity=discord.Game(name="on his lilypad"))
 
 if __name__ == "__main__":
     import asyncio
