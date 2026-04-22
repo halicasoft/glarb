@@ -73,6 +73,14 @@ class Basic(commands.Cog):
         )
         await ctx.send(f"**Leaderboard:**\n{leaderboard}")
 
+    @commands.command(name="reset")
+    async def reset(self, ctx):
+        economy = load_economy()
+        user_id = str(ctx.author.id)
+        economy[user_id] = 0
+        save_economy(economy)
+        await ctx.send("Your balance has been reset to $0.00.")
+
     @commands.command(name="commands")
     async def helpcmd(self, ctx):
         await ctx.send(

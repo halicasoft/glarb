@@ -192,7 +192,7 @@ class YTDLP(commands.Cog):
     async def loop(self, ctx, video: str):
         if not self.is_valid_url(video):
             await ctx.send(
-                "The provided URL is not a YouTube link. What are you trying to pull, little fly?"
+                "The provided URL is not a YouTube link, insect."
             )
             return
         is_valid, error_message = self.voice_check(ctx)
