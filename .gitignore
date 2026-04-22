@@ -209,3 +209,6 @@ __marimo__/
 #logs
 discord.log
 .log
+
+#money
+economy.json

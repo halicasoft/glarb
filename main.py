@@ -24,6 +24,7 @@ class Glarb(commands.Bot):
         self.session = aiohttp.ClientSession()
         await self.load_extension("basic")
         await self.load_extension("scryfall")
+        await self.load_extension("youtube")
         print("Loaded cogs!")
     
     async def close(self):
