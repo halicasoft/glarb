@@ -22,35 +22,36 @@ wubrg_values = [
     'R',
     'G'
 ]
-WUBRG = ['WUBRG']
-
-
 
 GUILD_NAMES = {
+    "WHITE": "W",
+    "BLUE": "U",
+    "BLACK": "B",
+    "RED": "R",
+    "GREEN": "G",
     # 2 colour
     'AZORIUS': 'WU',
     'DIMIR': 'UB',
     'RAKDOS': 'BR',
     'GRUUL': 'RG',
-    'SELESNYA': 'GW',
+    'SELESNYA': 'WG',
     'ORZHOV': 'WB',
     'IZZET': 'UR',
     'GOLGARI': 'BG',
-    'BOROS': 'RW',
-    'SIMIC': 'GU',
+    'BOROS': 'WR',
+    'SIMIC': 'UG',
     # 3 colour
-    'BANT': 'GWU',
+    'BANT': 'WUG',
     'ESPER': 'WUB',
     'GRIXIS': 'UBR',
     'JUND': 'BRG',
-    'NAYA': 'RGW',
-    'MARDU': 'RWB',
-    'TEMUR': 'RGU',
+    'NAYA': 'WRG',
+    'MARDU': 'WBR',
+    'TEMUR': 'URG',
     'ABZAN': 'WBG',
     'JESKAI': 'WUR',
-    'SULTAI': 'BGU',
+    'SULTAI': 'UBG',
     # 4 colour
-    'NEPHALIA': 'WUBR',
     'YORE': 'WUBR',
     'GLINT': 'UBRG',
     'DUNE': 'WBRG',
@@ -58,12 +59,7 @@ GUILD_NAMES = {
     'WITCH': 'WUBG',
     # 5 colour
     'WUBRG': 'WUBRG',
-    'ALL': 'WUBRG'
 }
-
-async def wubrg_sort(identity):
-    return ''.join(sorted(identity, key=lambda x: wubrg_values.index(x)))
-
 
 class Scryfall(commands.Cog):
     def __init__(self, bot):
@@ -75,36 +71,27 @@ class Scryfall(commands.Cog):
     async def cog_unload(self):
         print(f"{self.__class__.__name__} unloaded!")
 
-    @commands.command(name="random")
-    async def random(self, ctx):
-        url = 'https://api.scryfall.com/cards/random'
-        response = await self.bot.http_get(url, "json")
+    """
 
-        image_url = response["image_uris"]["normal"]
-        image_response = await self.bot.http_get(image_url, "img")
-        image_file = discord.File(io.BytesIO(image_response), filename="card.png")
+    **fetch commander command process:**
 
-        await ctx.send(fetch_dialogue[int(random() * len(fetch_dialogue))] + "\n**" + response["name"] + "**", file=image_file)
-
-    async def get_random_commander(self, identity: str):
-        search_id = identity
-        
-        if search_id in GUILD_NAMES:
-                    search_id = GUILD_NAMES[search_id]
-                  
-        url = f'https://api.scryfall.com/cards/random?q=id%3D{search_id}+is%3Acommander'
-        data = await self.bot.http_get(url, return_type="json")
-
-        # image_url = data["image_uris"]["normal"]
-        # image_response = await self.bot.http_get_img(image_url)
-        # image_file = discord.File(io.BytesIO(image_response), filename="card.png")
+    capitalise
+    ↓
+    check if guild name. if so return value
+    ↓
+    if not guild name: WUBRG sort and check again. glarb error if no
+    ↓
+    pass normalised value into scryfall
+    ↓
+    reclaim key and pass back to user
+    """
 
 
-        return data
-    
-    @commands.group()
-    async def commander(self, ctx):
-        if ctx.invoked_subcommand is None:
+    @commands.command()
+    async def commander(self, ctx, identity: str = None):
+
+        if identity is None:
+
             # default behavior is fetch any commander
             response = await self.bot.http_get(url + "random?q=is%3Acommander", "json")
 
@@ -113,25 +100,32 @@ class Scryfall(commands.Cog):
             image_file = discord.File(io.BytesIO(image_response), filename="card.png")
 
             await ctx.send(random.choice(fetch_dialogue) + "\n**" + response["name"] + "**", file=image_file)
+            return
 
-    @commands.command()
-    async def commander(self, ctx, identity: str):
-        normalised = identity.upper()
+        normalised = identity.upper()   
 
         if normalised in GUILD_NAMES:
-            return_id = normalised
+            normalised = GUILD_NAMES[normalised]
         else:
             normalised = ''.join(sorted(normalised, key=lambda x: wubrg_values.index(x)))
             if normalised not in GUILD_NAMES.values():
-                await ctx.send("Invalid identity. Please provide a valid WUBRG combination or guild name.")
+                await ctx.send("Invalid identity. Please provide a WUBRG combination or guild name.")
                 return
-            return_id = [key for key, value in GUILD_NAMES.items() if value == normalised]
 
         prefix = random.choice(fetch_dialogue)
         
-        card = await self.get_random_commander(normalised)
-        await ctx.send(f"{prefix} your random {return_id[0].capitalize()} commander is: **{card['name']}**\n{card['scryfall_uri']}")  
+        card, search_id = await self.get_random_commander(normalised)
+        await ctx.send(f"{prefix} your random {search_id[0].capitalize()} commander is: **{card['name']}**\n{card['scryfall_uri']}")
 
+    async def get_random_commander(self, identity: str):
+
+        if identity in GUILD_NAMES.values():
+                    search_id = [key for key, value in GUILD_NAMES.items() if value == identity]     
+        
+        url = f'https://api.scryfall.com/cards/random?q=id%3D{identity}+is%3Acommander'
+        data = await self.bot.http_get(url, return_type="json")
+
+        return data, search_id
 
 async def setup(bot):
     await bot.add_cog(Scryfall(bot=bot))
