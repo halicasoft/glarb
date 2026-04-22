@@ -73,7 +73,7 @@ class Scryfall(commands.Cog):
 
     """
 
-    **fetch commander command process:**
+    fetch commander command process:
 
     capitalise
     ↓
