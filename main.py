@@ -33,12 +33,19 @@ class Glarb(commands.Bot):
             self.session = None
         await super().close()
     
-    async def http_get_json(self, url):
-        async with self.session.get(url) as response:
-            return await response.json()
-    async def http_get_img(self, url):
-        async with self.session.get(url) as response:
-            return await response.read()
+    async def http_get(self, url, return_type):
+
+        if return_type == "json":
+            async with self.session.get(url) as response:
+                return await response.json()
+        elif return_type == "text":
+            async with self.session.get(url) as response:
+                return await response.text()
+        elif return_type == "img":
+             async with self.session.get(url) as response:
+                return await response.read()
+        else :
+            raise ValueError("Invalid type specified. Use 'json', 'text', or 'img'.")
 
 async def main():
      bot = Glarb()
