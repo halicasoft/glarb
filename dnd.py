@@ -4,10 +4,18 @@ import logging
 import random
 import json
 import os
+<<<<<<< HEAD
 
 # to do: error handling, refactor
 
 ENDPOINTS = ["spells", "cover", "items", "conditions"]
+=======
+import aiohttp
+
+# to do: error handling, refactor
+
+ENDPOINTS = ["spells", "cover", "equipment", "conditions"]
+>>>>>>> a692db0 (adding basic fantrax stuff and prep work)
 
 class DnD(commands.Cog):
     def __init__(self, bot):
@@ -23,13 +31,23 @@ class DnD(commands.Cog):
     @commands.command(name="dnd")
     async def dnd(self, ctx, endpoint, query: str = None):
         #prob could do with a refactor and error handling 
+<<<<<<< HEAD
         if query is None or endpoint not in ENDPOINTS:
             await ctx.send("Please provide a valid topic and query for DnD. available topics: spells, cover, items, conditions")
+=======
+        # this is gonna return a 404 a lot of the time unless the user writes something exact. so we need to handle this a lot better
+        if query is None or endpoint not in ENDPOINTS:
+            await ctx.send("Please provide a valid topic and query for DnD. available topics: spells, cover, equipment, conditions")
+>>>>>>> a692db0 (adding basic fantrax stuff and prep work)
             return
 
         url = f"https://www.dnd5eapi.co/api/2014/{endpoint}/{query}"
 
+<<<<<<< HEAD
         response = await self.bot.http_get(url, "json")
+=======
+        response = await self.bot.http_get(url, "json")            
+>>>>>>> a692db0 (adding basic fantrax stuff and prep work)
 
         if endpoint == "spells":
             response = await self.check_for_fog(response)
@@ -40,7 +58,11 @@ class DnD(commands.Cog):
         
         #to-do: set custom response formatting for different endpoints (as they have different relevant values)
         await ctx.send(f"**{response['name']}**\n{response['desc'][0]}")
+<<<<<<< HEAD
     
+=======
+            
+>>>>>>> a692db0 (adding basic fantrax stuff and prep work)
     @commands.command(name="roll")
     async def roll(self, ctx, dice: str):
         try:
