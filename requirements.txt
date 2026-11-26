@@ -7,3 +7,6 @@ ffmpeg-python
 pynacl
 deno
 davey
+selenium
+fantraxapi
+webdriver-manager

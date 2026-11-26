@@ -25,6 +25,7 @@ class Glarb(commands.Bot):
         await self.load_extension("basic")
         await self.load_extension("scryfall")
         await self.load_extension("youtube")
+        await self.load_extension("dnd")
         print("Loaded cogs!")
     
     async def close(self):
@@ -34,6 +35,9 @@ class Glarb(commands.Bot):
         await super().close()
     
     async def http_get(self, url, return_type):
+        #maybe we put the 404 handling here?? should i just define these as three separate functions regardless
+        #await ctx.send("Failed to find a result for your query. This could be because you typed it wrong or because I (Glarb) am stupid.")
+        #something like that
 
         if return_type == "json":
             async with self.session.get(url) as response:
