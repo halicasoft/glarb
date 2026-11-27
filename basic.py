@@ -59,7 +59,7 @@ class Basic(commands.Cog):
     async def injury_report(self):
             wait_for = random.randint(1, 172800)
             await asyncio.sleep(wait_for)
-            channel = await self.bot.fetch_channel(1560374831189467218)
+            channel = await self.bot.fetch_channel(1231285019897630830)
             dt = datetime.now()
             player, team = random.choice(list(players.items()))
             injury = random.choice(list(injuries))
@@ -152,34 +152,39 @@ class Basic(commands.Cog):
             "!balance - check your balance\n"
         )
 
-    @commands.command(name="injured")
+    @commands.command(name="postinjuryinbballserver")
     async def helpcmd(self, ctx):
+        ALLOWED = 1575884481439731876
 
-        dt = datetime.now()
-        player, team = random.choice(list(players.items()))
-        injury = random.choice(list(injuries))
-        likelihood = random.choice(list(likelihoods))
-        source = random.choice(list(sources))
-        structure = random.choice(list(struct))
-        day = dt.strftime('%A')
-
-        while injury == self.prev_injury:
-            injury = random.choice(list(injuries))
-        while player == self.prev_player:
+        if ctx.channel.id != ALLOWED:
+            await ctx.send("You don't have permission to do that.")
+        else:
+            dt = datetime.now()
             player, team = random.choice(list(players.items()))
+            injury = random.choice(list(injuries))
+            likelihood = random.choice(list(likelihoods))
+            source = random.choice(list(sources))
+            structure = random.choice(list(struct))
+            day = dt.strftime('%A')
+            channel = await self.bot.fetch_channel(1231285019897630830)
 
-        self.prev_player = player
-        self.prev_injury = injury
+            while injury == self.prev_injury:
+                injury = random.choice(list(injuries))
+            while player == self.prev_player:
+                player, team = random.choice(list(players.items()))
 
-        message = structure.format(
-            player=player,
-            injury=injury,
-            likelihood=likelihood,
-            source=source,
-            day=day,
-            team=team
-        )
-        await ctx.send(message)
+            self.prev_player = player
+            self.prev_injury = injury
+
+            message = structure.format(
+                player=player,
+                injury=injury,
+                likelihood=likelihood,
+                source=source,
+                day=day,
+                team=team
+            )
+            await channel.send(message)
 
     # doing something when the cog gets loaded
     async def cog_load(self):
