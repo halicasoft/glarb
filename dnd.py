@@ -4,65 +4,46 @@ import logging
 import random
 import json
 import os
-<<<<<<< HEAD
-
-# to do: error handling, refactor
-
-ENDPOINTS = ["spells", "cover", "items", "conditions"]
-=======
 import aiohttp
 
 # to do: error handling, refactor
 
 ENDPOINTS = ["spells", "cover", "equipment", "conditions"]
->>>>>>> a692db0 (adding basic fantrax stuff and prep work)
 
 class DnD(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def check_for_fog(self, response):
-        # this function needs cleaning up, check for fog properly, error handling etc
-        response_str = "".join(item for item in response['desc'])
-        response['desc'][0] = response_str.replace("fog", "frog")
-        return response
+    # async def check_for_fog(self, response):
+    #     # this function needs cleaning up, check for fog properly, error handling etc
+    #     response_str = "".join(item for item in response['desc'])
+    #     response['desc'][0] = response_str.replace("fog", "frog")
+    #     return response
 
 
-    @commands.command(name="dnd")
-    async def dnd(self, ctx, endpoint, query: str = None):
-        #prob could do with a refactor and error handling 
-<<<<<<< HEAD
-        if query is None or endpoint not in ENDPOINTS:
-            await ctx.send("Please provide a valid topic and query for DnD. available topics: spells, cover, items, conditions")
-=======
-        # this is gonna return a 404 a lot of the time unless the user writes something exact. so we need to handle this a lot better
-        if query is None or endpoint not in ENDPOINTS:
-            await ctx.send("Please provide a valid topic and query for DnD. available topics: spells, cover, equipment, conditions")
->>>>>>> a692db0 (adding basic fantrax stuff and prep work)
-            return
+    # @commands.command(name="dnd")
+    # async def dnd(self, ctx, endpoint, query: str = None):
+    #     #prob could do with a refactor and error handling 
+    #     # this is gonna return a 404 a lot of the time unless the user writes something exact. so we need to handle this a lot better
+    #     if query is None or endpoint not in ENDPOINTS:
+    #         await ctx.send("Please provide a valid topic and query for DnD. available topics: spells, cover, equipment, conditions")
+    #         return
 
-        url = f"https://www.dnd5eapi.co/api/2014/{endpoint}/{query}"
+    #     url = f"https://www.dnd5eapi.co/api/2014/{endpoint}/{query}"
 
-<<<<<<< HEAD
-        response = await self.bot.http_get(url, "json")
-=======
-        response = await self.bot.http_get(url, "json")            
->>>>>>> a692db0 (adding basic fantrax stuff and prep work)
+    #     response = await self.bot.http_get(url, "json")            
 
-        if endpoint == "spells":
-            response = await self.check_for_fog(response)
+    #     if endpoint == "spells":
+    #         response = await self.check_for_fog(response)
 
-        if response is None:
-            await ctx.send("No results found for your query. you probably typed something wrong")
-            return
+    #     if response is None:
+    #         await ctx.send("No results found for your query. you probably typed something wrong")
+    #         return
         
-        #to-do: set custom response formatting for different endpoints (as they have different relevant values)
-        await ctx.send(f"**{response['name']}**\n{response['desc'][0]}")
-<<<<<<< HEAD
+    #     #to-do: set custom response formatting for different endpoints (as they have different relevant values)
+    #     await ctx.send(f"**{response['name']}**\n{response['desc'][0]}")
     
-=======
             
->>>>>>> a692db0 (adding basic fantrax stuff and prep work)
     @commands.command(name="roll")
     async def roll(self, ctx, dice: str):
         try:
