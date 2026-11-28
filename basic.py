@@ -55,9 +55,9 @@ class Basic(commands.Cog):
     #     channel = await self.bot.fetch_channel(1560374831189467218)
     
 
-    @tasks.loop(hours=48.0)
+    @tasks.loop(hours=36.0)
     async def injury_report(self):
-            wait_for = random.randint(1, 172800)
+            wait_for = random.randint(1, 129600)
             await asyncio.sleep(wait_for)
             channel = await self.bot.fetch_channel(1231285019897630830)
             dt = datetime.now()
