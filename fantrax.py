@@ -62,8 +62,26 @@ class Fantrax(commands.Cog):
         except DateNotInSeason:
                     await ctx.send("I don't think there were any games played yesterday.")
                     return
-        rows = [(team_id, p) for team_id, players in by_team.items() for p in players]
+        rows = [(team_id, p) for team_id, players in by_team.items() for p in players] #if p.injured == False
         rows.sort(key=lambda row: row[1].points, reverse=True)
+
+        print("Checking for injured players")
+
+        last_player_hurt = True
+        while last_player_hurt == True and rows[-1]:
+            if rows[-1][-1].injured == True:
+                    rows.pop()
+            else:
+                last_player_hurt = False
+                break
+        # for player in rows:
+        #     if player[-1].injured == False:
+        #         break
+        #     else:
+        #         rows.remove(rows[-1])
+
+        print("Check complete")
+                
         best, worst = rows[0], rows[-1]
         best_team = self.my_league.team(best[0])
         worst_team = self.my_league.team(worst[0])
