@@ -124,7 +124,6 @@ injuries = {
     "Turkish prison",
     "being hunted for sport",
     "rib removal operation",
-    "achilles",
     "one arm stuck in vending machine",
     "dark night of the soul",
     "Spanish flu",
@@ -138,7 +137,9 @@ injuries = {
     "is one hit",
     "got chunked",
     "cut off nose to spite face",
-    "eggs in one basket"
+    "eggs in one basket",
+    "let the bed bugs bite",
+    "bildungsroman"
 }
 
 sources = {
@@ -158,3 +159,26 @@ struct = {
     "{source}: {player} ({injury}) {likelihood} for tonight's game.",
     "{source}: {player} ({team}) is {likelihood} for tonight's game ({injury})."
 }
+
+fetch_dialogue = [
+    "I gaze into the swirling portents, and I see the following omen:", 
+    "From the mists of my orb, a vision emerges:", 
+    "I look into the tea leaves, and the tea looks back:", 
+    "The entrails of some poor soul indicate this past calamity:",
+    "My dowsing rod entreats this drop of knowledge to the surface:",
+    "I took a look into the LegionHoops pond:"]
+
+MATCH_REPORTS = [
+    "{title}It was a great night for {best_team}, with {best[1].name} putting up an evening-high {best[1].points:.0f} fantasy points. Meanwhile, the commissioner for {worst_team} must have their head in their hands after that performance from {worst[1].name} last night... only {worst[1].points:.0f} fantasy points. The shame of it all!",
+
+    "{title}{best[1].name} went off for {best[1].points:.0f} fantasy points and {best_team} are looking goated. Over at {worst_team}, {worst[1].name} managed just {worst[1].points:.0f}. He will be killed at dawn.",
+
+    "{title}The front office that drafted {best[1].name} is popping off after {best[1].points:.0f} fantasy points of pure class for {best_team}. Meanwhile over at {worst_team} HQ they are preparing a Jonestown style scenario, whose {worst[1].name} contributed a staggering {worst[1].points:.0f}.",
+
+    "{title}Last night's best player: {best[1].name} ({best[1].points:.0f} fpts), carrying {best_team} on his back. Last night's worst player: {worst[1].name} ({worst[1].points:.0f} fpts), who made {worst_team} worse just by showing up.",
+
+    "{title}If you drafted {best[1].name}, big gz: {best[1].points:.0f} fantasy points last night. shoutout {best_team}. Meanwhile, Silver put out the ref job on {worst[1].name}. {worst[1].points:.0f} fantasy points????",
+
+    "{title}The scouting report is in. {best_team} struck gold with {best[1].name} at {best[1].points:.0f} fantasy points. {worst_team} struck complete doodoo dogshit with {worst[1].name} at {worst[1].points:.0f}.",
+]
+

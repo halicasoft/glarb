@@ -2,6 +2,7 @@ import os
 import pickle
 import time
 from dotenv import load_dotenv
+import datetime as dt
 
 from requests import Session
 from selenium import webdriver
@@ -75,8 +76,19 @@ league_id = os.getenv('LEAGUE_ID')
 
 my_league = League(league_id)
 
-print("------------ testing endpoints -------")
-print("Trading block")
-print(my_league.trade_block()) 
-print("Teams:")
-print(my_league.team_lookup)
+dt_now = dt.datetime.now()
+print(f"------------ Night report for {dt_now.strftime('%A')} ------------")
+print("-------------------------------------------------")
+by_team = my_league.live_scores(scoring_date=dt.date(2026, 11, 20))
+
+
+rows = [(team_id, p) for team_id, players in by_team.items() for p in players]
+rows.sort(key=lambda row: row[1].points, reverse=True)
+
+best, worst = rows[0], rows[-1]
+
+best_team = my_league.team(best[0])
+
+print(f"Top performer: {best[1]} with {int(best[1].points)} points!! {best_team} fans rejoice!")
+print(f"Bottom performance: {worst[1]} with {int(worst[1].points)} points!! What a stinker!!")
+
