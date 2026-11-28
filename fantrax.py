@@ -56,7 +56,7 @@ class Fantrax(commands.Cog):
     @commands.command(name="lastnight")
     async def lastnight(self, ctx):
         # api.request = new_request # replace the old function with the new function
-        dt_yday = (dt.datetime.now(ZoneInfo("America/New_York")) - timedelta(days=2)).date()
+        dt_yday = (dt.datetime.now(ZoneInfo("America/New_York")) - timedelta(days=1)).date()
         try:
             by_team = self.my_league.live_scores(scoring_date=dt_yday)
         except DateNotInSeason:
