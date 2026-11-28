@@ -177,8 +177,8 @@ MATCH_REPORTS = [
 
     "{title}Last night's best player: {best[1].name} ({best[1].points:.0f} fpts), carrying {best_team} on his back. Last night's worst player: {worst[1].name} ({worst[1].points:.0f} fpts), who made {worst_team} worse just by showing up.",
 
-    "{title}If you drafted {best[1].name}, big gz: {best[1].points:.0f} fantasy points last night. shoutout {best_team}. Meanwhile, Silver put out the ref job on {worst[1].name}. {worst[1].points:.0f} fantasy points????",
+    # "{title}If you drafted {best[1].name}, big gz: {best[1].points:.0f} fantasy points last night. shoutout {best_team}. Meanwhile, Silver put out the ref job on {worst[1].name}. {worst[1].points:.0f} fantasy points????",
 
-    "{title}The scouting report is in. {best_team} struck gold with {best[1].name} at {best[1].points:.0f} fantasy points. {worst_team} struck complete doodoo dogshit with {worst[1].name} at {worst[1].points:.0f}.",
+    "{title}The scouting report is in: {best_team} struck gold with {best[1].name} at {best[1].points:.0f} fantasy points. {worst_team} struck complete doodoo dogshit with {worst[1].name} at {worst[1].points:.0f}.",
 ]
 
